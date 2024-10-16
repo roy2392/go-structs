@@ -2,14 +2,36 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
-func main() {
-	firstName := getUserData("Enter your first name: ")
-	lastName := getUserData("Enter your last name: ")
-	birthDate := getUserData("Enter your birth date (MM/DD/YYYY): ")
+type user struct {
+	firstName string
+	lastName  string
+	birthDate string
+	createdAt time.Time
+}
 
-	fmt.Println(firstName, lastName, birthDate)
+func (u user) outputUserDetails() {
+	fmt.Println(u.firstName, u.lastName, u.birthDate, u.createdAt)
+}
+
+func main() {
+	userFirstName := getUserData("Enter your first name: ")
+	userLastName := getUserData("Enter your last name: ")
+	userBirthDate := getUserData("Enter your birth date (MM/DD/YYYY): ")
+
+	// Create a new user
+	var appUser user
+
+	appUser = user{
+		firstName: userFirstName,
+		lastName:  userLastName,
+		birthDate: userBirthDate,
+		createdAt: time.Now(),
+	}
+
+	outputUserDetails(&appUser)
 
 }
 
