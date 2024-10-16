@@ -2,24 +2,8 @@ package main
 
 import (
 	"fmt"
-	"time"
+	"structs-in-go/user"
 )
-
-type user struct {
-	firstName string
-	lastName  string
-	birthDate string
-	createdAt time.Time
-}
-
-func (u *user) outputUserDetails() {
-	fmt.Println(u.firstName, u.lastName, u.birthDate, u.createdAt)
-}
-
-func (u *user) clearUserName() {
-	u.firstName = ""
-	u.lastName = ""
-}
 
 func main() {
 	userFirstName := getUserData("Enter your first name: ")
@@ -27,25 +11,29 @@ func main() {
 	userBirthDate := getUserData("Enter your birth date (MM/DD/YYYY): ")
 
 	// Create a new user
-	var appUser user
+	var appUser *user.User
 
-	appUser = user{
-		firstName: userFirstName,
-		lastName:  userLastName,
-		birthDate: userBirthDate,
-		createdAt: time.Now(),
+	appUser, err := user.New(userFirstName, userLastName, userBirthDate)
+
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
 
-	appUser.outputUserDetails()
-	appUser.clearUserName()
-	appUser.outputUserDetails()
+	admin := user.NewAdmin("test@example.com", "test2020")
+	admin.OutputUserDetails()
+	admin.ClearUserName()
+
+	appUser.OutputUserDetails()
+	appUser.ClearUserName()
+	appUser.OutputUserDetails()
 
 }
 
 func getUserData(promptText string) string {
 	fmt.Print(promptText)
 	var value string
-	fmt.Scan(&value)
+	fmt.Scanln(&value)
 	return value
 }
 
