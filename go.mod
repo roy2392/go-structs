@@ -1,0 +1,1 @@
+module structs-in-go
